@@ -8,23 +8,41 @@ app.secret_key = "delege_secret"
 sports = ["hardlopen", "kracht_boven", "kracht_onder", "padel"]
 
 def is_allowed(chosen, last_done):
-    forbidden = {
-        "hardlopen": ["kracht_onder", "padel", "hardlopen"],
-        "kracht_boven": ["kracht_boven"],
-        "kracht_onder": ["kracht_onder", "hardlopen"],
-        "padel": ["padel", "kracht_onder", "hardlopen"]
-    }
-    for sport in forbidden.get(chosen, []):
-        if last_done.get(sport, 3) <= 1:
+    tijd = last_done
+
+    if chosen == "hardlopen":
+        if tijd.get("hardlopen", 3) <= 2:
             return False
-    return True
+        if tijd.get("kracht_onder", 3) <= 2:
+            return False
+        if tijd.get("padel", 3) <= 2:
+            return False
+        return True
+
+    elif chosen == "kracht_boven":
+        if tijd.get("kracht_boven", 3) <= 1:
+            return False
+        return True
+
+    elif chosen == "kracht_onder":
+        if tijd.get("kracht_onder", 3) <= 1:
+            return False
+        if tijd.get("hardlopen", 3) <= 1:
+            return False
+        if tijd.get("padel", 3) <= 1:
+            return False
+        return True
+
+    elif chosen == "padel":
+        return True  # Padel mag altijd
+
+    return False
 
 def suggest_alternatives(chosen, last_done):
     allowed = []
     for sport in sports:
-        if sport != chosen and is_allowed(sport, last_done):
-            if sport != "padel":
-                allowed.append((sport, last_done.get(sport, 3)))
+        if sport != chosen and sport != "padel" and is_allowed(sport, last_done):
+            allowed.append((sport, last_done.get(sport, 3)))
     if not allowed:
         return []
     allowed.sort(key=lambda x: -x[1])
