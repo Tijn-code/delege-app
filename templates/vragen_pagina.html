@@ -1,0 +1,32 @@
+
+<!doctype html>
+<html>
+<head>
+    <title>Vragen</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        section { margin-bottom: 40px; }
+        button { margin: 5px; }
+    </style>
+    <script>
+        function scrollToNext(id) {
+            document.getElementById(id).scrollIntoView({ behavior: "smooth" });
+        }
+    </script>
+</head>
+<body>
+    <h2>Wanneer heb je voor het laatst deze sporten gedaan?</h2>
+    <form method="POST">
+        {% for sport in sports %}
+        <section id="vraag{{ loop.index }}">
+            <h3>{{ sport.replace("_", " ").capitalize() }}</h3>
+            <button type="button" onclick="this.form.{{ sport }}.value=1; scrollToNext('vraag{{ loop.index + 1 }}')">Gisteren</button>
+            <button type="button" onclick="this.form.{{ sport }}.value=2; scrollToNext('vraag{{ loop.index + 1 }}')">2 dagen geleden</button>
+            <button type="button" onclick="this.form.{{ sport }}.value=3; scrollToNext('vraag{{ loop.index + 1 }}')">Langer geleden</button>
+            <input type="hidden" name="{{ sport }}" value="3">
+        </section>
+        {% endfor %}
+        <button type="submit">Verzend</button>
+    </form>
+</body>
+</html>

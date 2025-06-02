@@ -8,42 +8,28 @@ app.secret_key = "delege_secret"
 sports = ["hardlopen", "kracht_boven", "kracht_onder", "padel"]
 
 def is_allowed(chosen, last_done):
-    print("Chosen sport:", chosen)
-    print("Last done dictionary:", last_done)
-
     if chosen == "hardlopen":
         if last_done.get("hardlopen", 3) <= 2:
-            print("Too recent: hardlopen")
             return False
         if last_done.get("kracht_onder", 3) <= 2:
-            print("Too recent: kracht onder")
             return False
         if last_done.get("padel", 3) <= 2:
-            print("Too recent: padel")
             return False
         return True
-
     elif chosen == "kracht_boven":
         if last_done.get("kracht_boven", 3) <= 1:
-            print("Too recent: kracht boven")
             return False
         return True
-
     elif chosen == "kracht_onder":
         if last_done.get("kracht_onder", 3) <= 1:
-            print("Too recent: kracht onder")
             return False
         if last_done.get("hardlopen", 3) <= 1:
-            print("Too recent: hardlopen")
             return False
         if last_done.get("padel", 3) <= 1:
-            print("Too recent: padel")
             return False
         return True
-
     elif chosen == "padel":
         return True
-
     return False
 
 def suggest_alternatives(chosen, last_done):
@@ -58,41 +44,30 @@ def suggest_alternatives(chosen, last_done):
     best_options = [sport for sport, score in allowed if score == best_score]
     return best_options
 
-@app.route("/", methods=["GET"])
+@app.route("/")
 def index():
     return render_template("index_buttons.html", sports=sports)
 
 @app.route("/start/<sport>")
 def start(sport):
     session["chosen"] = sport
-    session["answers"] = {}
-    session["order"] = sports.copy()
-    return redirect(url_for("vraag", idx=0))
+    return redirect(url_for("vragen"))
 
-@app.route("/vraag/<int:idx>", methods=["GET", "POST"])
-def vraag(idx):
+@app.route("/vragen", methods=["GET", "POST"])
+def vragen():
     if request.method == "POST":
-        antwoord = int(request.form["antwoord"])
-        huidige_sport = session["order"][idx]
-        session["answers"][huidige_sport] = antwoord
-        print(f"Vraag {idx}: {huidige_sport} = {antwoord}")
-
-        if idx + 1 >= len(session["order"]):
-            return redirect(url_for("resultaat"))
-        return redirect(url_for("vraag", idx=idx + 1))
-
-    if idx >= len(session["order"]):
+        antwoorden = {}
+        for sport in sports:
+            antwoorden[sport] = int(request.form.get(sport, 3))
+        session["answers"] = antwoorden
         return redirect(url_for("resultaat"))
 
-    huidige_sport = session["order"][idx]
-    vraagtekst = f"Wanneer heb je voor het laatst {huidige_sport.replace('_', ' ')} gedaan?"
-    return render_template("vraag_enkel.html", sport=huidige_sport, vraagtekst=vraagtekst, idx=idx)
+    return render_template("vragen_pagina.html", sports=sports)
 
 @app.route("/resultaat")
 def resultaat():
-    gekozen = session["chosen"]
-    antwoorden = session["answers"]
-    print("Final antwoorden:", antwoorden)
+    gekozen = session.get("chosen", "onbekend")
+    antwoorden = session.get("answers", {})
     toegestaan = is_allowed(gekozen, antwoorden)
     suggesties = suggest_alternatives(gekozen, antwoorden)
     return render_template("resultaat.html", gekozen=gekozen, toegestaan=toegestaan, suggesties=suggesties)
