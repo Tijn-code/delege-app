@@ -65,9 +65,8 @@ def start(sport):
 def vraag(idx):
     if request.method == "POST":
         antwoord = int(request.form["antwoord"])
-        if idx > 0:
-            vorige_sport = session["order"][idx - 1]
-            session["answers"][vorige_sport] = antwoord
+        huidige_sport = session["order"][idx]
+        session["answers"][huidige_sport] = antwoord
         return redirect(url_for("vraag", idx=idx + 1))
 
     if idx >= len(session["order"]):
