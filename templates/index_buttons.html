@@ -1,15 +1,17 @@
 
-<!doctype html>
+<!DOCTYPE html>
 <html>
-<head><title>Delege: Kies sport</title><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/static/style.css"></head>
+<head>
+    <title>Kies je sport</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
 <body>
-<div class="container">
-    <h1>Welke sport wil je doen?</h1>
-    {% for sport in sports %}
-        <form action="/start/{{ sport }}">
-            <button type="submit">{{ sport.replace('_', ' ').capitalize() }}</button>
-        </form>
-    {% endfor %}
-</div>
+    <h1>Welke sport wil je vandaag doen?</h1>
+    <form method="POST" action="/vragen">
+        <button name="keuze" value="hardlopen">Hardlopen</button>
+        <button name="keuze" value="kracht_boven">Krachttraining boven</button>
+        <button name="keuze" value="kracht_onder">Krachttraining onder</button>
+        <button name="keuze" value="padel">Padellen</button>
+    </form>
 </body>
 </html>

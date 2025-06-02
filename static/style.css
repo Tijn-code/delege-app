@@ -1,32 +1,29 @@
 
 body {
-    font-family: Arial, sans-serif;
-    background: #f0f4f8;
-    margin: 0;
-    padding: 20px;
-}
-.container {
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-    max-width: 500px;
-    margin: auto;
-    box-shadow: 0 0 12px rgba(0,0,0,0.1);
+    font-family: sans-serif;
+    padding: 40px;
+    text-align: center;
 }
 button {
-    width: 100%;
-    padding: 15px;
-    margin: 10px 0;
+    display: block;
+    margin: 10px auto;
+    padding: 15px 30px;
     font-size: 16px;
-    background-color: #4CAF50;
-    color: white;
     border: none;
-    border-radius: 8px;
+    border-radius: 10px;
+    background-color: #007BFF;
+    color: white;
     cursor: pointer;
 }
 button:hover {
-    background-color: #45a049;
+    background-color: #0056b3;
 }
-ul {
-    padding-left: 20px;
+.active-vraag {
+    border-left: 5px solid #28a745;
+    background-color: #f9f9f9;
+    padding-left: 10px;
+}
+.antwoord button.selected {
+    background-color: #28a745;
+    color: white;
 }

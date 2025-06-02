@@ -1,26 +1,12 @@
 
-<!doctype html>
+<!DOCTYPE html>
 <html>
-<head><title>Advies</title><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/static/style.css"></head>
+<head>
+    <title>Sportadvies</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
 <body>
-<div class="container">
-    <h1>Advies voor {{ gekozen.replace('_', ' ').capitalize() }}</h1>
-    {% if toegestaan %}
-        <p>✅ Je kunt vandaag {{ gekozen.replace('_', ' ') }} doen.</p>
-    {% else %}
-        <p>❌ Het is beter om vandaag geen {{ gekozen.replace('_', ' ') }} te doen.</p>
-        {% if suggesties %}
-            <p>Je kunt vandaag wél één van deze sporten doen:</p>
-            <ul>
-            {% for s in suggesties %}
-                <li>{{ s.replace('_', ' ').capitalize() }}</li>
-            {% endfor %}
-            </ul>
-        {% else %}
-            <p>Er zijn vandaag geen aanbevolen alternatieven. Neem eventueel een rustdag.</p>
-        {% endif %}
-    {% endif %}
-    <br><a href="/">🔁 Opnieuw kiezen</a>
-</div>
+    <h2>{{ advies }}</h2>
+    <a href="/">Opnieuw proberen</a>
 </body>
 </html>

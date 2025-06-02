@@ -1,32 +1,109 @@
 
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <head>
-    <title>Vragen</title>
+    <title>Sportadvies</title>
     <link rel="stylesheet" href="/static/style.css">
     <style>
-        section { margin-bottom: 40px; }
-        button { margin: 5px; }
+        .vraag { margin-bottom: 30px; }
+        .antwoord button {
+            margin: 5px;
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: none;
+            background-color: #f0f0f0;
+            cursor: pointer;
+        }
+        .antwoord button.selected {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .active-vraag {
+            border-left: 5px solid #4CAF50;
+            padding-left: 10px;
+            background-color: #f9f9f9;
+        }
     </style>
     <script>
-        function scrollToNext(id) {
-            document.getElementById(id).scrollIntoView({ behavior: "smooth" });
+        let antwoorden = {};
+        function selectOption(vraagId, value, btn) {
+            antwoorden[vraagId] = value;
+
+            const groep = document.querySelectorAll(`#${vraagId} .antwoord button`);
+            groep.forEach(b => b.classList.remove("selected"));
+            btn.classList.add("selected");
+
+            const volgendeVraag = document.getElementById(vraagId).nextElementSibling;
+            if (volgendeVraag && volgendeVraag.classList.contains("vraag")) {
+                document.querySelectorAll('.vraag').forEach(v => v.classList.remove('active-vraag'));
+                volgendeVraag.classList.add('active-vraag');
+                volgendeVraag.scrollIntoView({ behavior: "smooth" });
+            }
+        }
+
+        function submitForm() {
+            const form = document.createElement("form");
+            form.method = "POST";
+            form.action = "/resultaat";
+            const keuze = new URLSearchParams(window.location.search).get('keuze');
+            const keuzeInput = document.createElement("input");
+            keuzeInput.type = "hidden";
+            keuzeInput.name = "keuze";
+            keuzeInput.value = keuze;
+            form.appendChild(keuzeInput);
+
+            for (let key in antwoorden) {
+                const input = document.createElement("input");
+                input.type = "hidden";
+                input.name = key;
+                input.value = antwoorden[key];
+                form.appendChild(input);
+            }
+            document.body.appendChild(form);
+            form.submit();
+        }
+
+        window.onload = function() {
+            document.querySelector('.vraag').classList.add('active-vraag');
         }
     </script>
 </head>
 <body>
-    <h2>Wanneer heb je voor het laatst deze sporten gedaan?</h2>
-    <form method="POST">
-        {% for sport in sports %}
-        <section id="vraag{{ loop.index }}">
-            <h3>{{ sport.replace("_", " ").capitalize() }}</h3>
-            <button type="button" onclick="this.form.{{ sport }}.value=1; scrollToNext('vraag{{ loop.index + 1 }}')">Gisteren</button>
-            <button type="button" onclick="this.form.{{ sport }}.value=2; scrollToNext('vraag{{ loop.index + 1 }}')">2 dagen geleden</button>
-            <button type="button" onclick="this.form.{{ sport }}.value=3; scrollToNext('vraag{{ loop.index + 1 }}')">Langer geleden</button>
-            <input type="hidden" name="{{ sport }}" value="3">
-        </section>
-        {% endfor %}
-        <button type="submit">Verzend</button>
-    </form>
+    <h1>Beantwoord de vragen over je recente trainingen</h1>
+    <div class="vraag" id="hardlopen">
+        <strong>Wanneer heb je voor het laatst hardgelopen?</strong>
+        <div class="antwoord">
+            <button onclick="selectOption('hardlopen', '0', this)">Vandaag</button>
+            <button onclick="selectOption('hardlopen', '1', this)">Gisteren</button>
+            <button onclick="selectOption('hardlopen', '2', this)">Eergisteren of langer geleden</button>
+        </div>
+    </div>
+    <div class="vraag" id="kracht_boven">
+        <strong>Wanneer heb je voor het laatst krachttraining bovenlichaam gedaan?</strong>
+        <div class="antwoord">
+            <button onclick="selectOption('kracht_boven', '0', this)">Vandaag</button>
+            <button onclick="selectOption('kracht_boven', '1', this)">Gisteren</button>
+            <button onclick="selectOption('kracht_boven', '2', this)">Eergisteren of langer geleden</button>
+        </div>
+    </div>
+    <div class="vraag" id="kracht_onder">
+        <strong>Wanneer heb je voor het laatst krachttraining onderlichaam gedaan?</strong>
+        <div class="antwoord">
+            <button onclick="selectOption('kracht_onder', '0', this)">Vandaag</button>
+            <button onclick="selectOption('kracht_onder', '1', this)">Gisteren</button>
+            <button onclick="selectOption('kracht_onder', '2', this)">Eergisteren of langer geleden</button>
+        </div>
+    </div>
+    <div class="vraag" id="padel">
+        <strong>Wanneer heb je voor het laatst gepaddeld?</strong>
+        <div class="antwoord">
+            <button onclick="selectOption('padel', '0', this)">Vandaag</button>
+            <button onclick="selectOption('padel', '1', this)">Gisteren</button>
+            <button onclick="selectOption('padel', '2', this)">Eergisteren of langer geleden</button>
+        </div>
+    </div>
+    <div style="margin-top: 40px;">
+        <button onclick="submitForm()" style="padding: 15px 30px; font-size: 16px;">Toon advies</button>
+    </div>
 </body>
 </html>
