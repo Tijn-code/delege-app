@@ -34,7 +34,7 @@ def is_allowed(chosen, last_done):
         return True
 
     elif chosen == "padel":
-        return True  # Padel mag altijd
+        return True
 
     return False
 
@@ -67,6 +67,9 @@ def vraag(idx):
         antwoord = int(request.form["antwoord"])
         huidige_sport = session["order"][idx]
         session["answers"][huidige_sport] = antwoord
+
+        if idx + 1 >= len(session["order"]):
+            return redirect(url_for("resultaat"))
         return redirect(url_for("vraag", idx=idx + 1))
 
     if idx >= len(session["order"]):
