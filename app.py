@@ -46,3 +46,6 @@ def resultaat():
         advies = f"Beter geen {keuze.replace('_', ' ')} vandaag."
 
     return render_template("resultaat.html", advies=advies)
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 10000)))
