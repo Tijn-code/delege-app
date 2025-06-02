@@ -61,3 +61,7 @@ def resultaat():
     toegestaan = is_allowed(gekozen, antwoorden)
     suggesties = suggest_alternatives(gekozen, antwoorden)
     return render_template("resultaat.html", gekozen=gekozen, toegestaan=toegestaan, suggesties=suggesties)
+
+if __name__ == "__main__":
+    import os
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 10000)))
