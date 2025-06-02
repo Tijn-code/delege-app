@@ -40,17 +40,21 @@ def index():
 def start(sport):
     session["chosen"] = sport
     session["answers"] = {}
-    session["order"] = sports.copy()  # 4 vragen incl. gekozen sport
+    session["order"] = sports.copy()
     return redirect(url_for("vraag", idx=0))
 
 @app.route("/vraag/<int:idx>", methods=["GET", "POST"])
 def vraag(idx):
-    if request.method == "POST" and idx > 0:
+    if request.method == "POST":
         antwoord = int(request.form["antwoord"])
-        vorige_sport = session["order"][idx - 1]
-        session["answers"][vorige_sport] = antwoord
+        if idx > 0:
+            vorige_sport = session["order"][idx - 1]
+            session["answers"][vorige_sport] = antwoord
+        return redirect(url_for("vraag", idx=idx + 1))
+
     if idx >= len(session["order"]):
         return redirect(url_for("resultaat"))
+
     huidige_sport = session["order"][idx]
     vraagtekst = f"Wanneer heb je voor het laatst {huidige_sport.replace('_', ' ')} gedaan?"
     return render_template("vraag_enkel.html", sport=huidige_sport, vraagtekst=vraagtekst, idx=idx)
