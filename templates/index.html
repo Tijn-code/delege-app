@@ -1,0 +1,26 @@
+
+<!doctype html>
+<html>
+<head>
+    <title>Delege App</title>
+    <style>body { font-family: sans-serif; padding: 20px; }</style>
+</head>
+<body>
+    <h1>Kies je sport</h1>
+    <form method="post">
+        <select name="sport">
+            <option value="hardlopen">Hardlopen</option>
+            <option value="kracht_boven">Kracht Bovenlichaam</option>
+            <option value="kracht_onder">Kracht Onderlichaam</option>
+            <option value="padel">Padel</option>
+        </select>
+        <button type="submit">Advies</button>
+    </form>
+
+    {% if result %}
+        <h2>Advies</h2>
+        <p>{{ result.advies }}</p>
+        <p><strong>Alternatief:</strong> {{ result.alternatief }}</p>
+    {% endif %}
+</body>
+</html>
