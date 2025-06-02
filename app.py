@@ -8,28 +8,36 @@ app.secret_key = "delege_secret"
 sports = ["hardlopen", "kracht_boven", "kracht_onder", "padel"]
 
 def is_allowed(chosen, last_done):
-    tijd = last_done
+    print("Chosen sport:", chosen)
+    print("Last done dictionary:", last_done)
 
     if chosen == "hardlopen":
-        if tijd.get("hardlopen", 3) <= 2:
+        if last_done.get("hardlopen", 3) <= 2:
+            print("Too recent: hardlopen")
             return False
-        if tijd.get("kracht_onder", 3) <= 2:
+        if last_done.get("kracht_onder", 3) <= 2:
+            print("Too recent: kracht onder")
             return False
-        if tijd.get("padel", 3) <= 2:
+        if last_done.get("padel", 3) <= 2:
+            print("Too recent: padel")
             return False
         return True
 
     elif chosen == "kracht_boven":
-        if tijd.get("kracht_boven", 3) <= 1:
+        if last_done.get("kracht_boven", 3) <= 1:
+            print("Too recent: kracht boven")
             return False
         return True
 
     elif chosen == "kracht_onder":
-        if tijd.get("kracht_onder", 3) <= 1:
+        if last_done.get("kracht_onder", 3) <= 1:
+            print("Too recent: kracht onder")
             return False
-        if tijd.get("hardlopen", 3) <= 1:
+        if last_done.get("hardlopen", 3) <= 1:
+            print("Too recent: hardlopen")
             return False
-        if tijd.get("padel", 3) <= 1:
+        if last_done.get("padel", 3) <= 1:
+            print("Too recent: padel")
             return False
         return True
 
@@ -67,6 +75,7 @@ def vraag(idx):
         antwoord = int(request.form["antwoord"])
         huidige_sport = session["order"][idx]
         session["answers"][huidige_sport] = antwoord
+        print(f"Vraag {idx}: {huidige_sport} = {antwoord}")
 
         if idx + 1 >= len(session["order"]):
             return redirect(url_for("resultaat"))
@@ -83,6 +92,7 @@ def vraag(idx):
 def resultaat():
     gekozen = session["chosen"]
     antwoorden = session["answers"]
+    print("Final antwoorden:", antwoorden)
     toegestaan = is_allowed(gekozen, antwoorden)
     suggesties = suggest_alternatives(gekozen, antwoorden)
     return render_template("resultaat.html", gekozen=gekozen, toegestaan=toegestaan, suggesties=suggesties)

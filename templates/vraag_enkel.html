@@ -1,15 +1,16 @@
 
 <!doctype html>
 <html>
-<head><title>Vraag {{ idx+1 }}</title><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/static/style.css"></head>
+<head>
+    <title>Vraag</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
 <body>
-<div class="container">
     <h2>{{ vraagtekst }}</h2>
-    <form method="post">
-        <button name="antwoord" value="1" type="submit">1 dag geleden</button><br>
-        <button name="antwoord" value="2" type="submit">2 dagen geleden</button><br>
-        <button name="antwoord" value="3" type="submit">Langer dan 2 dagen geleden</button>
+    <form method="POST">
+        <button type="submit" name="antwoord" value="1">Gisteren</button>
+        <button type="submit" name="antwoord" value="2">2 dagen geleden</button>
+        <button type="submit" name="antwoord" value="3">Langer geleden</button>
     </form>
-</div>
 </body>
 </html>
