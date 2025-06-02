@@ -1,5 +1,6 @@
 
 from flask import Flask, render_template, request, redirect, url_for, session
+import os
 
 app = Flask(__name__)
 app.secret_key = "delege_secret"
@@ -44,7 +45,7 @@ def start(sport):
 
 @app.route("/vraag/<int:idx>", methods=["GET", "POST"])
 def vraag(idx):
-    if request.method == "POST":
+    if request.method == "POST" and idx > 0:
         antwoord = int(request.form["antwoord"])
         vorige_sport = session["order"][idx - 1]
         session["answers"][vorige_sport] = antwoord
@@ -63,5 +64,4 @@ def resultaat():
     return render_template("resultaat.html", gekozen=gekozen, toegestaan=toegestaan, suggesties=suggesties)
 
 if __name__ == "__main__":
-    import os
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 10000)))
