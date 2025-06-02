@@ -1,32 +1,18 @@
 
 <!doctype html>
-<html lang="nl">
-<head>
-    <meta charset="utf-8">
-    <title>Delege Sportadvies</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/static/style.css">
-</head>
+<html>
+<head><title>Kies je sport</title><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/static/style.css"></head>
 <body>
-    <div class="container">
-        <h1>Wat wil je vandaag doen?</h1>
-        <form method="post">
-            <select name="sport">
-                <option value="hardlopen">Hardlopen</option>
-                <option value="kracht_boven">Kracht bovenlichaam</option>
-                <option value="kracht_onder">Kracht onderlichaam</option>
-                <option value="padel">Padel</option>
-            </select>
-            <button type="submit">Bekijk advies</button>
-        </form>
-
-        {% if result %}
-            <div class="advies">
-                <h2>Advies</h2>
-                <p>{{ result.advies }}</p>
-                <p><strong>Alternatief:</strong> {{ result.alternatief }}</p>
-            </div>
-        {% endif %}
-    </div>
+<div class="container">
+    <h1>Welke sport wil je doen?</h1>
+    <form method="post">
+        <select name="sport">
+            {% for sport in sports %}
+                <option value="{{ sport }}">{{ sport.replace('_', ' ').capitalize() }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Volgende</button>
+    </form>
+</div>
 </body>
 </html>
