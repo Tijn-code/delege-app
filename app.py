@@ -1,12 +1,12 @@
 
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 
 app = Flask(__name__)
+app.secret_key = "delege_secret"
 
 sports = ["hardlopen", "kracht_boven", "kracht_onder", "padel"]
 
 def is_allowed(chosen, last_done):
-    # Verbodslijst per sport
     forbidden = {
         "hardlopen": ["kracht_onder", "padel", "hardlopen"],
         "kracht_boven": ["kracht_boven"],
@@ -26,32 +26,38 @@ def suggest_alternatives(chosen, last_done):
                 allowed.append((sport, last_done.get(sport, 3)))
     if not allowed:
         return []
-    # Sorteer op hoe lang geleden (hoogst eerst)
     allowed.sort(key=lambda x: -x[1])
-    beste_score = allowed[0][1]
-    beste_opties = [sport for sport, dagen in allowed if dagen == beste_score]
-    return beste_opties
+    best_score = allowed[0][1]
+    best_options = [sport for sport, score in allowed if score == best_score]
+    return best_options
 
-@app.route("/", methods=["GET", "POST"])
+@app.route("/", methods=["GET"])
 def index():
-    if request.method == "POST":
-        gekozen = request.form.get("sport")
-        return redirect(url_for('vragen', sport=gekozen))
-    return render_template("index.html", sports=sports)
+    return render_template("index_buttons.html", sports=sports)
 
-@app.route("/vragen/<sport>", methods=["GET", "POST"])
-def vragen(sport):
-    andere = [s for s in sports if s != sport]
-    vragenlijst = [f"Wanneer heb je voor het laatst {s.replace('_', ' ')} gedaan?" for s in andere]
-    if request.method == "POST":
-        last_done = {}
-        for s in andere:
-            value = int(request.form.get(s))
-            last_done[s] = value
-        toegestaan = is_allowed(sport, last_done)
-        suggesties = suggest_alternatives(sport, last_done)
-        return render_template("resultaat.html", gekozen=sport, toegestaan=toegestaan, suggesties=suggesties)
-    return render_template("vragen.html", sport=sport, vragen=zip(andere, vragenlijst))
+@app.route("/start/<sport>")
+def start(sport):
+    session["chosen"] = sport
+    session["answers"] = {}
+    session["order"] = sports.copy()  # 4 vragen incl. gekozen sport
+    return redirect(url_for("vraag", idx=0))
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=10000)
+@app.route("/vraag/<int:idx>", methods=["GET", "POST"])
+def vraag(idx):
+    if request.method == "POST":
+        antwoord = int(request.form["antwoord"])
+        vorige_sport = session["order"][idx - 1]
+        session["answers"][vorige_sport] = antwoord
+    if idx >= len(session["order"]):
+        return redirect(url_for("resultaat"))
+    huidige_sport = session["order"][idx]
+    vraagtekst = f"Wanneer heb je voor het laatst {huidige_sport.replace('_', ' ')} gedaan?"
+    return render_template("vraag_enkel.html", sport=huidige_sport, vraagtekst=vraagtekst, idx=idx)
+
+@app.route("/resultaat")
+def resultaat():
+    gekozen = session["chosen"]
+    antwoorden = session["answers"]
+    toegestaan = is_allowed(gekozen, antwoorden)
+    suggesties = suggest_alternatives(gekozen, antwoorden)
+    return render_template("resultaat.html", gekozen=gekozen, toegestaan=toegestaan, suggesties=suggesties)

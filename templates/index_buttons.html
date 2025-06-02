@@ -1,0 +1,15 @@
+
+<!doctype html>
+<html>
+<head><title>Delege: Kies sport</title><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/static/style.css"></head>
+<body>
+<div class="container">
+    <h1>Welke sport wil je doen?</h1>
+    {% for sport in sports %}
+        <form action="/start/{{ sport }}">
+            <button type="submit">{{ sport.replace('_', ' ').capitalize() }}</button>
+        </form>
+    {% endfor %}
+</div>
+</body>
+</html>
