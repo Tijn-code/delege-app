@@ -3,10 +3,6 @@ import os
 
 app = Flask(__name__)
 
-<<<<<<< HEAD
-=======
-# Hersteltijden per sportcombinatie in uren
->>>>>>> origin/main
 # Hersteltijden per sportcombinatie in uren volgens de opgegeven tabel
 #    Sport vandaag \ Laatste keer   Hardlopen  Kracht boven  Kracht onder  Padel
 #    -----------------------------------------------------------------------------
@@ -16,13 +12,6 @@ app = Flask(__name__)
 #    Padel                           12           6              24          24
 
 hersteluren = {
-<<<<<<< HEAD
-=======
-    "hardlopen": {"hardlopen": 48, "kracht_boven": 24, "kracht_onder": 48, "padel": 24},
-    "kracht_boven": {"hardlopen": 24, "kracht_boven": 48, "kracht_onder": 24, "padel": 24},
-    "kracht_onder": {"hardlopen": 48, "kracht_boven": 24, "kracht_onder": 48, "padel": 24},
-    "padel": {"hardlopen": 24, "kracht_boven": 24, "kracht_onder": 24, "padel": 24},
->>>>>>> origin/main
     "hardlopen":    {"hardlopen": 48, "kracht_boven": 12, "kracht_onder": 48, "padel": 36},
     "kracht_boven": {"hardlopen": 6,  "kracht_boven": 48, "kracht_onder": 6,  "padel": 12},
     "kracht_onder": {"hardlopen": 48, "kracht_boven": 6,  "kracht_onder": 72, "padel": 24},
@@ -30,16 +19,7 @@ hersteluren = {
 }
 
 def is_toegestaan(gekozen, antwoorden):
-<<<<<<< HEAD
-=======
-    for sport, antwoord in antwoorden.items():
-        verschil = 0 if antwoord == '0' else 24 if antwoord == '1' else 48
->>>>>>> origin/main
-    """Check of de gekozen sport mag worden uitgevoerd.
-
-    `antwoorden` bevat het aantal uur sinds de gebruiker elke sport voor het
-    laatst heeft gedaan.
-    """
+    """Check of de gekozen sport mag worden uitgevoerd."""
     for sport, uren_str in antwoorden.items():
         try:
             verschil = int(uren_str)
@@ -58,11 +38,6 @@ def suggesties(gekozen, antwoorden):
         if sport == gekozen:
             continue
         toegestaan = True
-<<<<<<< HEAD
-=======
-        for ander, antwoord in antwoorden.items():
-            verschil = 0 if antwoord == '0' else 24 if antwoord == '1' else 48
->>>>>>> origin/main
         for ander, uren_str in antwoorden.items():
             try:
                 verschil = int(uren_str)
@@ -77,12 +52,10 @@ def suggesties(gekozen, antwoorden):
 
 @app.route("/")
 def index():
-    """Startpagina waar de gebruiker een sport kiest."""
     return render_template("index.html")
 
 @app.route("/vragen", methods=["GET", "POST"])
 def vragen():
-    """Stel vragen over recente activiteiten."""
     keuze = request.values.get("keuze", "")
     return render_template("vragen.html", keuze=keuze)
 
@@ -94,13 +67,6 @@ def resultaat():
             return render_template("resultaat.html", advies="Ongeldige sportkeuze."), 400
 
         antwoorden = {
-<<<<<<< HEAD
-=======
-            "hardlopen": request.form.get("hardlopen", "2"),
-            "kracht_boven": request.form.get("kracht_boven", "2"),
-            "kracht_onder": request.form.get("kracht_onder", "2"),
-            "padel": request.form.get("padel", "2"),
->>>>>>> origin/main
             "hardlopen": request.form.get("hardlopen", "0"),
             "kracht_boven": request.form.get("kracht_boven", "0"),
             "kracht_onder": request.form.get("kracht_onder", "0"),
