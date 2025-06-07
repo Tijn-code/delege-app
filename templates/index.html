@@ -1,90 +1,20 @@
 
 <!DOCTYPE html>
-<html>
+<html lang="nl">
 <head>
-    <title>Delege Sportadvies</title>
-    <style>
-        body { font-family: sans-serif; padding: 20px; }
-        .vraag { margin-bottom: 30px; }
-        .antwoord { display: flex; gap: 10px; margin-top: 10px; }
-        .antwoord button { padding: 10px 20px; border: none; cursor: pointer; border-radius: 5px; background-color: #eee; }
-        .antwoord button.selected { background-color: #4CAF50; color: white; }
-        .hidden { display: none; }
-    </style>
-    <script>
-        let antwoorden = {};
-        function selecteerAntwoord(vraag, waarde) {
-            antwoorden[vraag] = waarde;
-            document.querySelectorAll(`#${vraag} .antwoord button`).forEach(btn => btn.classList.remove('selected'));
-            document.querySelector(`#${vraag} .antwoord button[data-val='${waarde}']`).classList.add('selected');
-            const volgende = document.getElementById(vraag).nextElementSibling;
-            if (volgende && volgende.classList.contains('vraag')) {
-                volgende.scrollIntoView({ behavior: 'smooth' });
-            }
-        }
-
-        function verstuur() {
-            const form = document.createElement('form');
-            form.method = 'POST';
-            form.action = '/advies';
-            for (const [vraag, waarde] of Object.entries(antwoorden)) {
-                const input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = vraag;
-                input.value = waarde;
-                form.appendChild(input);
-            }
-            document.body.appendChild(form);
-            form.submit();
-        }
-    </script>
+    <meta charset="UTF-8">
+    <title>Kies je sport</title>
+    <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-    <h1>Welke sport wil je vandaag doen?</h1>
-    <form>
-        <div class="vraag" id="keuze">
-            <strong>Sport:</strong>
-            <div class="antwoord">
-                <button type="button" onclick="selecteerAntwoord('keuze', 'hardlopen')" data-val="hardlopen">Hardlopen</button>
-                <button type="button" onclick="selecteerAntwoord('keuze', 'kracht_boven')" data-val="kracht_boven">Kracht boven</button>
-                <button type="button" onclick="selecteerAntwoord('keuze', 'kracht_onder')" data-val="kracht_onder">Kracht onder</button>
-                <button type="button" onclick="selecteerAntwoord('keuze', 'padel')" data-val="padel">Paddelen</button>
-            </div>
-        </div>
-        <div class="vraag" id="hardlopen">
-            <strong>Wanneer heb je voor het laatst hardgelopen?</strong>
-            <div class="antwoord">
-                <button type="button" onclick="selecteerAntwoord('hardlopen', '0')" data-val="0">Vandaag</button>
-                <button type="button" onclick="selecteerAntwoord('hardlopen', '1')" data-val="1">Gisteren</button>
-                <button type="button" onclick="selecteerAntwoord('hardlopen', '2')" data-val="2">Eergisteren of langer</button>
-            </div>
-        </div>
-        <div class="vraag" id="kracht_boven">
-            <strong>Wanneer kracht boven gedaan?</strong>
-            <div class="antwoord">
-                <button type="button" onclick="selecteerAntwoord('kracht_boven', '0')" data-val="0">Vandaag</button>
-                <button type="button" onclick="selecteerAntwoord('kracht_boven', '1')" data-val="1">Gisteren</button>
-                <button type="button" onclick="selecteerAntwoord('kracht_boven', '2')" data-val="2">Eergisteren of langer</button>
-            </div>
-        </div>
-        <div class="vraag" id="kracht_onder">
-            <strong>Wanneer kracht onder gedaan?</strong>
-            <div class="antwoord">
-                <button type="button" onclick="selecteerAntwoord('kracht_onder', '0')" data-val="0">Vandaag</button>
-                <button type="button" onclick="selecteerAntwoord('kracht_onder', '1')" data-val="1">Gisteren</button>
-                <button type="button" onclick="selecteerAntwoord('kracht_onder', '2')" data-val="2">Eergisteren of langer</button>
-            </div>
-        </div>
-        <div class="vraag" id="padel">
-            <strong>Wanneer gepaddeld?</strong>
-            <div class="antwoord">
-                <button type="button" onclick="selecteerAntwoord('padel', '0')" data-val="0">Vandaag</button>
-                <button type="button" onclick="selecteerAntwoord('padel', '1')" data-val="1">Gisteren</button>
-                <button type="button" onclick="selecteerAntwoord('padel', '2')" data-val="2">Eergisteren of langer</button>
-            </div>
-        </div>
-    </form>
-    <br>
-    <button onclick="verstuur()">Advies tonen</button>
+    <div class="container">
+        <h1>Welke sport wil je vandaag doen?</h1>
+        <form method="POST" action="/vragen">
+            <button name="keuze" value="hardlopen">Hardlopen</button>
+            <button name="keuze" value="kracht_boven">Kracht boven</button>
+            <button name="keuze" value="kracht_onder">Kracht onder</button>
+            <button name="keuze" value="padel">Padel</button>
+        </form>
+    </div>
 </body>
 </html>

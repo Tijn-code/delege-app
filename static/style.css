@@ -1,29 +1,46 @@
 
 body {
-    font-family: sans-serif;
+    font-family: Arial, sans-serif;
     padding: 40px;
     text-align: center;
+    background: #f7f7f7;
 }
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+h1 {
+    margin-top: 0;
+}
+
 button {
     display: block;
-    margin: 10px auto;
-    padding: 15px 30px;
+    margin: 15px auto;
+    padding: 12px 25px;
     font-size: 16px;
     border: none;
-    border-radius: 10px;
+    border-radius: 6px;
     background-color: #007BFF;
     color: white;
     cursor: pointer;
 }
+
 button:hover {
     background-color: #0056b3;
 }
-.active-vraag {
-    border-left: 5px solid #28a745;
-    background-color: #f9f9f9;
-    padding-left: 10px;
+
+.vraag {
+    margin: 20px 0;
+    text-align: left;
 }
-.antwoord button.selected {
-    background-color: #28a745;
-    color: white;
+
+label {
+    display: block;
+    margin: 5px 0;
 }
