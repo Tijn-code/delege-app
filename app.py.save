@@ -1,3 +1,9 @@
+git add .
+git commit -m "Conflicten opgelost in app.py en vragen_pagina.html verwijderd"
+git push origin codex/maak-sportkeuze-logica-en-integratie
+git add .
+git commit -m "Conflicten opgelost in app.py en vragen_pagina.html verwijderd"
+git push origin codex/maak-sportkeuze-logica-en-integratie
 from flask import Flask, render_template, request
 import os
 
