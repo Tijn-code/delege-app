@@ -16,7 +16,7 @@ hersteluren = {
     "hardlopen": {"hardlopen": 48, "kracht_boven": 24, "kracht_onder": 48, "padel": 24},
     "kracht_boven": {"hardlopen": 24, "kracht_boven": 48, "kracht_onder": 24, "padel": 24},
     "kracht_onder": {"hardlopen": 48, "kracht_boven": 24, "kracht_onder": 48, "padel": 24},
-    "padel": {"hardlopen": 24, "kracht_boven": 24, "kracht_onder": 24, "padel": 24}
+    "padel": {"hardlopen": 24, "kracht_boven": 24, "kracht_onder": 24, "padel": 24},
     "hardlopen":    {"hardlopen": 48, "kracht_boven": 12, "kracht_onder": 48, "padel": 36},
     "kracht_boven": {"hardlopen": 6,  "kracht_boven": 48, "kracht_onder": 6,  "padel": 12},
     "kracht_onder": {"hardlopen": 48, "kracht_boven": 6,  "kracht_onder": 72, "padel": 24},
