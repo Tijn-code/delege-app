@@ -16,7 +16,7 @@ hersteluren = {
     "hardlopen": {"hardlopen": 48, "kracht_boven": 24, "kracht_onder": 48, "padel": 24},
     "kracht_boven": {"hardlopen": 24, "kracht_boven": 48, "kracht_onder": 24, "padel": 24},
     "kracht_onder": {"hardlopen": 48, "kracht_boven": 24, "kracht_onder": 48, "padel": 24},
-    "padel": {"hardlopen": 24, "kracht_boven": 24, "kracht_onder": 24, "padel": 24}
+    "padel": {"hardlopen": 24, "kracht_boven": 24, "kracht_onder": 24, "padel": 24},
     "hardlopen":    {"hardlopen": 48, "kracht_boven": 12, "kracht_onder": 48, "padel": 36},
     "kracht_boven": {"hardlopen": 6,  "kracht_boven": 48, "kracht_onder": 6,  "padel": 12},
     "kracht_onder": {"hardlopen": 48, "kracht_boven": 6,  "kracht_onder": 72, "padel": 24},
@@ -83,7 +83,7 @@ def resultaat():
             "hardlopen": request.form.get("hardlopen", "2"),
             "kracht_boven": request.form.get("kracht_boven", "2"),
             "kracht_onder": request.form.get("kracht_onder", "2"),
-            "padel": request.form.get("padel", "2")
+            "padel": request.form.get("padel", "2"),
             "hardlopen": request.form.get("hardlopen", "0"),
             "kracht_boven": request.form.get("kracht_boven", "0"),
             "kracht_onder": request.form.get("kracht_onder", "0"),
