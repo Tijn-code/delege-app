@@ -83,7 +83,7 @@ def resultaat():
             "hardlopen": request.form.get("hardlopen", "2"),
             "kracht_boven": request.form.get("kracht_boven", "2"),
             "kracht_onder": request.form.get("kracht_onder", "2"),
-            "padel": request.form.get("padel", "2")
+            "padel": request.form.get("padel", "2"),
             "hardlopen": request.form.get("hardlopen", "0"),
             "kracht_boven": request.form.get("kracht_boven", "0"),
             "kracht_onder": request.form.get("kracht_onder", "0"),
