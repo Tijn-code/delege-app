@@ -1,19 +1,47 @@
 
-<!doctype html>
-<html>
-<head><title>Laatste trainingen</title><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/static/style.css"></head>
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <title>Vragen</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
 <body>
-<div class="container">
-    <h1>{{ sport.replace('_', ' ').capitalize() }} - Trainingscheck</h1>
-    <form method="post">
-        {% for code, vraag in vragen %}
-            <label>{{ vraag }}</label><br>
-            <input type="radio" name="{{ code }}" value="1" required> 1 dag geleden<br>
-            <input type="radio" name="{{ code }}" value="2"> 2 dagen geleden<br>
-            <input type="radio" name="{{ code }}" value="3"> Langer dan 2 dagen geleden<br><br>
-        {% endfor %}
-        <button type="submit">Bekijk advies</button>
-    </form>
-</div>
+    <div class="container">
+        <h1>Beantwoord de vragen</h1>
+        <form method="POST" action="/resultaat">
+            <input type="hidden" name="keuze" value="{{ keuze }}">
+
+            <div class="vraag">
+                <p><strong>Wanneer heb je voor het laatst hardgelopen?</strong></p>
+                <label><input type="radio" name="hardlopen" value="0" required> Vandaag</label><br>
+                <label><input type="radio" name="hardlopen" value="24"> Gisteren</label><br>
+                <label><input type="radio" name="hardlopen" value="48"> Eerder</label>
+            </div>
+
+            <div class="vraag">
+                <p><strong>Wanneer heb je voor het laatst krachttraining bovenlichaam gedaan?</strong></p>
+                <label><input type="radio" name="kracht_boven" value="0" required> Vandaag</label><br>
+                <label><input type="radio" name="kracht_boven" value="24"> Gisteren</label><br>
+                <label><input type="radio" name="kracht_boven" value="48"> Eerder</label>
+            </div>
+
+            <div class="vraag">
+                <p><strong>Wanneer heb je voor het laatst krachttraining onderlichaam gedaan?</strong></p>
+                <label><input type="radio" name="kracht_onder" value="0" required> Vandaag</label><br>
+                <label><input type="radio" name="kracht_onder" value="24"> Gisteren</label><br>
+                <label><input type="radio" name="kracht_onder" value="48"> Eerder</label>
+            </div>
+
+            <div class="vraag">
+                <p><strong>Wanneer heb je voor het laatst gepadeld?</strong></p>
+                <label><input type="radio" name="padel" value="0" required> Vandaag</label><br>
+                <label><input type="radio" name="padel" value="24"> Gisteren</label><br>
+                <label><input type="radio" name="padel" value="48"> Eerder</label>
+            </div>
+
+            <button type="submit">Bekijk advies</button>
+        </form>
+    </div>
 </body>
 </html>
